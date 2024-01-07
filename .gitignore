@@ -9,4 +9,5 @@ build/
 
 # Misc
 .DS_Store
+keystore.properties
 local.properties
