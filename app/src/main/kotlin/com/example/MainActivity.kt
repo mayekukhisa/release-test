@@ -38,7 +38,7 @@ fun MainScreen() {
       contentAlignment = Alignment.Center,
    ) {
       Text(
-         text = "Catchphrase 😎",
+         text = "Catchphrase 😎, 1",
          color = MaterialTheme.colorScheme.onBackground,
          style = MaterialTheme.typography.headlineMedium,
       )
