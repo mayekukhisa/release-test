@@ -1,0 +1,51 @@
+name: Release Please
+
+on:
+   push:
+      branches:
+         - main
+
+permissions:
+   contents: write
+   pull-requests: write
+
+jobs:
+   release-please:
+      runs-on: ubuntu-latest
+      steps:
+         - id: release
+           name: Create release
+           uses: google-github-actions/release-please-action@v4
+
+         - name: Checkout repository
+           if: ${{ steps.release.outputs.release_created }}
+           uses: actions/checkout@v4
+
+         - name: Set up JDK
+           if: ${{ steps.release.outputs.release_created }}
+           uses: actions/setup-java@v4
+           with:
+              distribution: "temurin"
+              java-version: "17"
+
+         - name: Decode keystore
+           if: ${{ steps.release.outputs.release_created }}
+           run: echo "${{ secrets.ENCODED_KEYSTORE }}" | base64 -d > decoded-keystore.jks
+
+         - name: Create keystore properties
+           if: ${{ steps.release.outputs.release_created }}
+           run: |
+              echo "storeFile=../decoded-keystore.jks" >> keystore.properties
+              echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> keystore.properties
+              echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> keystore.properties
+              echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> keystore.properties
+
+         - name: Build app bundle
+           if: ${{ steps.release.outputs.release_created }}
+           run: chmod +x gradlew && ./gradlew bundleRelease
+
+         - name: Upload release asset
+           if: ${{ steps.release.outputs.release_created }}
+           env:
+              GH_TOKEN: ${{ github.token }}
+           run: gh release upload ${{ steps.release.outputs.tag_name }} app/build/outputs/bundle/release/*.aab
