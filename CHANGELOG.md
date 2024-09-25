@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.0](https://github.com/mayekukhisa/release-test/compare/v0.1.0...v0.2.0) (2024-09-20)
+
+
+### Features
+
+* feature four ([b43248b](https://github.com/mayekukhisa/release-test/commit/b43248b0da18f50aaacdc2db9d87b46a74f4abd6))
+* feature three ([82ed718](https://github.com/mayekukhisa/release-test/commit/82ed7186651b3cacd01c6fc3e5f6bc04aeffadba))
+
 ## [0.1.0](https://github.com/mayekukhisa/release-test/compare/v0.1.0...v0.1.0) (2024-01-09)
 
 
